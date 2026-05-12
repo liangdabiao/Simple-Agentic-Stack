@@ -1,0 +1,21 @@
+{
+  "model": "deepseek-v4-flash",
+  "api_base_url": "https://api.deepseek.com/anthropic",
+  "max_steps": 10,
+  "skill_path": "skills/oncall_holiday_check.md",
+  "default_question": "当前值班工程师所在国家今天是否有公共假日？如果有，列出他们名下的 P1 问题。",
+  "mcp_servers": {
+    "holidays": {
+      "script": "mcp_servers/holidays_server.py",
+      "env": {
+        "HOLIDAY_API_BASE": "https://date.nager.at/api/v3"
+      }
+    },
+    "ops": {
+      "script": "mcp_servers/ops_server.py",
+      "env": {
+        "OPS_DB": "{root}/ops.db"
+      }
+    }
+  }
+}

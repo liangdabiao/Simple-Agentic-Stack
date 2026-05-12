@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip install *)",
+      "Bash(python seed_db.py)",
+      "Bash(OPS_DB=D:/skill-mcp/ops.db python server_test.py)",
+      "Bash(python -c ' *)",
+      "Bash(python test_ops_server.py)",
+      "Bash(python orchestrator.py)",
+      "Bash(curl -s https://api.deepseek.com/anthropic/v1/models -H \"x-api-key: sk-8518979e68294617babd277c620e0bdf\" -H \"anthropic-version: 2023-06-01\")",
+      "Bash(curl *)",
+      "Bash(python test_api.py)"
+    ]
+  }
+}
