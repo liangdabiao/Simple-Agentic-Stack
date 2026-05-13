@@ -1,0 +1,16 @@
+{
+  "project_root": "..",
+  "model": "deepseek-v4-flash",
+  "api_base_url": "https://api.deepseek.com/anthropic",
+  "max_steps": 20,
+  "skill_path": "skills/ecom-details-image/SKILL.md",
+  "default_question": "帮我生成一个白色充电宝的白底主图",
+  "mcp_servers": {
+    "ecom": {
+      "script": "mcp_servers/ecom_image_server.py",
+      "env": {
+        "ECOM_SKILL_DIR": "{root}/skills/ecom-details-image"
+      }
+    }
+  }
+}

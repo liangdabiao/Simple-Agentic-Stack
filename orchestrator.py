@@ -20,7 +20,11 @@ load_dotenv(ROOT / ".env", override=True)
 
 def load_config(config_path: Path) -> dict:
     cfg = json.loads(config_path.read_text(encoding="utf-8"))
-    cfg["_root"] = config_path.resolve().parent
+    cfg_dir = config_path.resolve().parent
+    if "project_root" in cfg:
+        cfg["_root"] = (cfg_dir / cfg["project_root"]).resolve()
+    else:
+        cfg["_root"] = cfg_dir
     return cfg
 
 
@@ -142,11 +146,21 @@ async def run(question: str, cfg: dict) -> None:
         trace(f"[中止] 已达最大步数 max_steps={cfg['max_steps']}，未能得到最终回答")
 
 
+SKILL_CONFIGS = {
+    "oncall": DEFAULT_CONFIG,
+    "ecom": ROOT / "configs" / "ecom-image.json",
+}
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="按 Skill 驱动 MCP Server 回答问题。")
     parser.add_argument(
-        "--config", type=Path, default=DEFAULT_CONFIG,
-        help="配置文件路径（默认：脚本同目录下的 config.json）。",
+        "--config", type=Path, default=None,
+        help="配置文件路径。",
+    )
+    parser.add_argument(
+        "--skill", choices=list(SKILL_CONFIGS.keys()),
+        help="快捷切换 Skill（oncall / ecom），等价于 --config。",
     )
     parser.add_argument(
         "question", nargs="*",
@@ -154,6 +168,13 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    cfg = load_config(args.config.resolve())
+    if args.config:
+        config_path = args.config.resolve()
+    elif args.skill:
+        config_path = SKILL_CONFIGS[args.skill].resolve()
+    else:
+        config_path = DEFAULT_CONFIG
+
+    cfg = load_config(config_path)
     question = " ".join(args.question) or cfg["default_question"]
     asyncio.run(run(question, cfg))
