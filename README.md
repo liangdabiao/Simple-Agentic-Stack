@@ -1,4 +1,4 @@
-# Agentic Stack - 本地 AI Agent 系统
+# Simple Agentic Stack - 本地 AI Agent 系统
 
 基于 MCP（Model Context Protocol）和 Skill 驱动的 AI Agent 编排系统。LLM 通过自然语言编写的 Skill 按步骤调用 MCP Server 提供的工具，完成复杂的多数据源联动任务。
 
